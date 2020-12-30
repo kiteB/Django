@@ -1,0 +1,8 @@
+{% extends 'first/base.html' %}
+{% load static %}
+{% block content %}
+	<h2>로또 번호 추천</h2>
+	<img src="{% static 'first/choco.jpg' %}" alt="초코">
+	<p>현재 시각: {{ current_date|date:"Y년 m월 d일 H시 i분 s초" }}</p>
+	<a href="{% url 'select' %}">시작하기!</a>
+{% endblock %}
