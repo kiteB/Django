@@ -1,5 +1,7 @@
 <form action="{% url 'confirm' %}" method="post">
     {% csrf_token %} {# 유효성을 검증해줌. #}
-    {{ form }}
+    <table>
+       {{ form.as_table }}
+    </table>
     <button type="submit">제출</button>
 </form>
