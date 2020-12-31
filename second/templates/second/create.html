@@ -1,0 +1,5 @@
+<form action="{% url 'confirm' %}" method="post">
+    {% csrf_token %} {# 유효성을 검증해줌. #}
+    {{ form }}
+    <button type="submit">제출</button>
+</form>
