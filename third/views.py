@@ -1,9 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from third.models import Restaurant
 from django.core.paginator import Paginator
 from third.forms import RestaurantForm
 from django.http import HttpResponseRedirect
-
 
 
 # Create your views here.
@@ -28,3 +27,22 @@ def create(request):
         return HttpResponseRedirect('/third/list')
     form = RestaurantForm()
     return render(request, 'third/create.html', {'form':form})
+
+
+def update(request):
+    if request.method == "POST" and 'id' in request.POST:
+        # item = Restaurant.objects.get(pk=request.POST.get('id'))
+        item = get_object_or_404(Restaurant, pk=request.POST.get('id'))
+        form = RestaurantForm(request.POST, instance=item) # instance가 없으면, create와 같이 Restaurant가 새롭게 추가됨.
+
+        if form.is_valid():
+            item = form.save()
+
+    elif request.method == "GET":
+        # item = Restaurant.objects.get(pk=request.GET.get('id')) # third/update?id=2 이렇게 데이터 전송이 되는 것이 보장되어야 함.
+        item = get_object_or_404(Restaurant, pk=request.GET.get('id'))
+        form = RestaurantForm(instance=item)
+        return render(request, 'third/update.html', {'form': form})
+    return HttpResponseRedirect('/third/list/')
+
+
