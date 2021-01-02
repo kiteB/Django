@@ -46,9 +46,9 @@ def update(request):
     return HttpResponseRedirect('/third/list/')
 
 
-def detail(request):
-    if 'id' in request.GET:
-        item = get_object_or_404(Restaurant, pk=request.GET.get('id'))
+def detail(request, id):
+    if id is not None:
+        item = get_object_or_404(Restaurant, pk=id)
         return render(request, 'third/detail.html', {'item': item})
     return HttpResponseRedirect('/third/list/')
 
