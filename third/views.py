@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from third.models import Restaurant
 from django.core.paginator import Paginator
-from third.forms import RestaurantForm
+from third.forms import RestaurantForm, ReviewForm
 from django.http import HttpResponseRedirect
 
 
@@ -58,3 +58,15 @@ def delete(request):
         item = get_object_or_404(Restaurant, pk=request.GET.get('id'))
         item.delete()
     return HttpResponseRedirect('/third/list/')
+
+
+def review_create(request, restaurant_id):
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            new_item = form.save()
+        return redirect('restaurant-detail', id=restaurant_id)
+
+    item = get_object_or_404(Restaurant, pk=restaurant_id)
+    form = ReviewForm(initial={'restaurant': item})
+    return render(request, 'third/review_create.html', {'form': form, 'item': item})
