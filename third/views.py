@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from third.models import Restaurant
+from third.models import Restaurant, Review
 from django.core.paginator import Paginator
 from third.forms import RestaurantForm, ReviewForm
 from django.http import HttpResponseRedirect
@@ -49,7 +49,8 @@ def update(request):
 def detail(request, id):
     if id is not None:
         item = get_object_or_404(Restaurant, pk=id)
-        return render(request, 'third/detail.html', {'item': item})
+        reviews = Review.objects.filter(restaurant=item).all()
+        return render(request, 'third/detail.html', {'item': item, 'reviews': reviews})
     return HttpResponseRedirect('/third/list/')
 
 
