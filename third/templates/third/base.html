@@ -1,34 +1,29 @@
 {% load static %}
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>음식점</title>
-    <link rel="stylesheet" href="{% static 'third/styles.css' %}">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-</head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/list">음식점</a>
-        <button class="navbar-toggler" type="button"
-                data-toggle="collapse"
-                data-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup"
-                aria-expanded="false"
-                aria-label="Toggle navigation">
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>음식점</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'third/styles.css' %}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <a class="navbar-brand" href="/third/list">음식점</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+                  aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/third/list">음식점 리스트<span class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="/third/create">음식점 등록</a>
+              <a class="nav-item nav-link" href="/third/list">음식점 리스트<span class="sr-only">(current)</span></a>
+              <a class="nav-item nav-link" href="/third/create">음식점 등록</a>
+              <a class="nav-item nav-link" href="/third/review/list">리뷰 리스트</a>
             </div>
-        </div>
-    </nav>
-{% block content %}
-{% endblock %}
-</body>
-</html>
+          </div>
+        </nav>
+        {% block content %}
+        {% endblock %}
+    </body>
