@@ -1,15 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from third.models import Restaurant, Review
 from django.core.paginator import Paginator
-from third.forms import RestaurantForm, ReviewForm
+from third.forms import RestaurantForm, ReviewForm, UpdateRestaurantForm
 from django.http import HttpResponseRedirect
 from django.db.models import Count, Avg
 
 
 # Create your views here.
 def list(request):
-    restaurants = Restaurant.objects.all().annotate(reviews_count=Count('review'))\
-        .annotate(average_point=Avg('review__point')) # review 중 point의 평균
+    restaurants = Restaurant.objects.all().annotate(reviews_count=Count('review')).annotate(average_point=Avg('review__point')) # review 중 point의 평균
     paginator = Paginator(restaurants, 5)
 
     page = request.GET.get('page')  # third.list?page=1
@@ -28,24 +27,25 @@ def create(request):
             new_item = form.save()
         return HttpResponseRedirect('/third/list')
     form = RestaurantForm()
-    return render(request, 'third/create.html', {'form':form})
+    return render(request, 'third/create.html', {'form': form})
 
 
 def update(request):
-    if request.method == "POST" and 'id' in request.POST:
-        # item = Restaurant.objects.get(pk=request.POST.get('id'))
+    if request.method == 'POST' and 'id' in request.POST:
         item = get_object_or_404(Restaurant, pk=request.POST.get('id'))
-        form = RestaurantForm(request.POST, instance=item) # instance가 없으면, create와 같이 Restaurant가 새롭게 추가됨.
+        password = request.POST.get('password', '')
+        form = UpdateRestaurantForm(request.POST, instance=item)  # NOTE: instance 인자(수정대상) 지정
 
-        if form.is_valid():
+        if form.is_valid() and password == item.password:  # 비밀번호 검증 추가
             item = form.save()
 
-    elif request.method == "GET":
-        # item = Restaurant.objects.get(pk=request.GET.get('id')) # third/update?id=2 이렇게 데이터 전송이 되는 것이 보장되어야 함.
+    elif 'id' in request.GET:
         item = get_object_or_404(Restaurant, pk=request.GET.get('id'))
         form = RestaurantForm(instance=item)
+        form.password = ''  # password 데이터를 비웁니다.
         return render(request, 'third/update.html', {'form': form})
-    return HttpResponseRedirect('/third/list/')
+
+    return HttpResponseRedirect('/third/list/')  # 리스트 화면으로 이동합니다.
 
 
 def detail(request, id):
